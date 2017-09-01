@@ -1,0 +1,60 @@
+\documentclass{article}
+
+\usepackage{tikz}
+
+\tikzset{
+    nn/.pic={
+        \tikzstyle{neuron}=[circle,fill=black!25,minimum size=17pt,inner sep=0pt]
+        \tikzstyle{edge}=[->, shorten <=2pt, shorten >=2pt]
+
+        \pgfmathsetmacro{\nbIn}{4}
+        \pgfmathsetmacro{\nbHid}{8}
+        \pgfmathsetmacro{\nbOut}{4}
+        \pgfmathsetmacro{\xIn}{0}
+        \pgfmathsetmacro{\xHid}{4}
+        \pgfmathsetmacro{\xOut}{8}
+        \pgfmathsetmacro{\yOff}{(\nbHid - \nbOut)/2}
+
+        \foreach \i in {0,...,\nbIn}
+            \draw (\xIn, \i+\yOff) node[neuron](I-\i) {};
+
+        \foreach \i in {0,...,\nbHid}
+            \draw (\xHid, \i) node[neuron](H-\i) {};
+
+        \foreach \i in {0,...,\nbOut}
+            \draw (\xOut, \i + \yOff) node[neuron](O-\i) {};
+
+        \foreach \i in {0,...,\nbIn}
+            \foreach \j in {0,...,\nbHid}
+                \draw [edge] (I-\i) -- (H-\j);
+
+        \foreach \i in {0,...,\nbHid}
+            \foreach \j in {0,...,\nbOut}
+                \draw [edge] (H-\i) -- (O-\j);
+    },
+    %
+    rn/.pic={
+        \foreach \i in {1,...,10} {
+            \draw [fill=red] (\i, 1) circle (5pt);
+            \draw [fill=green] (\i,2) circle (5pt);
+            \draw [fill=blue] (\i, 3) circle (5pt);
+            \draw [fill=orange] (\i, 4) circle (5pt);
+        }
+
+        \foreach \i in {0.5,1.5,...,10} {
+            \path (4,4) pic[scale=1, rotate=0] {nn};
+            \draw (\i+0.1, 5) rectangle (\i+0.9, 0) --cycle;
+        }
+
+
+    }}
+
+\begin{document}
+
+
+\begin{tikzpicture}
+    %\path (4,4) pic[scale=1, rotate=0] {nn};
+    \path (4,16) pic[scale=1] {rn};
+\end{tikzpicture}
+
+\end{document}
